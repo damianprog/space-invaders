@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <title>Space Invaders</title>
+    <meta charset="UTF-8"/>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            background: url('/assets/images/background2.jpg') no-repeat;
+            background-size: cover;
+        }
+
+        canvas {
+            margin-top: 20px;
+            background: #000;
+        }
+
+        img {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <img class="space-ship" src="assets/images/space-ship.png">
+    <img class="alien-a-0" src="assets/images/aliens/alien-a-0.png">
+    <img class="alien-a-1" src="assets/images/aliens/alien-a-1.png">
+    <img class="alien-b-0" src="assets/images/aliens/alien-b-0.png">
+    <img class="alien-b-1" src="assets/images/aliens/alien-b-1.png">
+    <img class="alien-c-0" src="assets/images/aliens/alien-c-0.png">
+    <img class="alien-c-1" src="assets/images/aliens/alien-c-1.png">
+    <div class="main-container">
+        <canvas width="592" height="550">
+
+        </canvas>
+    </div>
+
+    <script type="module" src="src/index.js"></script>
+</body>
+
+</html>
