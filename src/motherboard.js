@@ -17,7 +17,9 @@ export default class Motherboard {
         this.aliens.forEach(alien => alien.draw(ctx));
     }
 
-    update() {
+    update(deltaTime) {
+        this.aliens.forEach(alien => alien.update(deltaTime));
+        this.aliens = this.aliens.filter(alien => !alien.markedForRemoval);
         if (this.moveAliens) {
             const isAlienOnEdge = this.aliens.some(alien => {
                 return alien.position.x <= 0 ||

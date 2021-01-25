@@ -4,6 +4,7 @@ import SpaceShip from "/src/spaceShip.js";
 export default class Input {
     constructor(spaceShip, game) {
         this.spaceShip = spaceShip;
+        this.game = game;
         document.addEventListener("keydown", event => {
             switch(event.key) {
                 case "ArrowLeft":
@@ -13,6 +14,9 @@ export default class Input {
                 case "ArrowRight":
                     this.spaceShip.moveRight();
                     break;
+
+                case "c":
+                    this.game.createMissile();
             }
         });  
         

@@ -10,6 +10,7 @@ export default class Alien {
         this.imageState = 0
         this.size = 22;
         this.speed = 10;
+        this.markedForRemoval = false;
     }
 
     draw(ctx) {
@@ -22,8 +23,27 @@ export default class Alien {
         );
     }
 
-    update() {
-        
+    update(deltaTime) {
+        const missile = this.game.missile;
+        if (missile) {
+            const bottomOfMissile = missile.position.y + missile.size;
+            const topOfMissile = missile.position.y;
+
+            const topOfAlien = this.position.y;
+            const leftSideOfAlien = this.position.x;
+            const rightSideOfAlien = this.position.x + this.size;
+            const bottomOfAlien = this.position.y + this.size;
+            if (
+                bottomOfMissile >= topOfAlien &&
+                topOfMissile <= bottomOfAlien && 
+                missile.position.x + missile.size >= leftSideOfAlien &&
+                missile.position.x <= rightSideOfAlien
+            ) {
+                this.markedForRemoval = true;
+                this.game.missile = null;
+            }
+        }
+        // console.log("Update alien");
     }
 
     move() {

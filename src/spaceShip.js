@@ -30,11 +30,11 @@ export default class SpaceShip {
     }
 
     moveLeft() {
-        this.speed = -0.4;
+        this.speed = -0.2;
     }
 
     moveRight() {
-        this.speed = 0.4;
+        this.speed = 0.2;
     }
 
     stop() {

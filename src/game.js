@@ -3,6 +3,7 @@ import Input from "/src/input.js";
 import Alien from "/src/alien.js";
 import Position from "/src/position.js";
 import Motherboard from "/src/motherboard.js";
+import Missile from "/src/missile.js";
 
 export default class Game {
     constructor(gameWidth, gameHeight) {
@@ -30,14 +31,24 @@ export default class Game {
         return aliens;
     }
 
+    createMissile() {
+        const missilePosition = new Position(this.spaceShip.position.x + 10, this.spaceShip.position.y);
+        if (!this.missile) this.missile = new Missile(this, missilePosition);
+    }
+
     draw(ctx) {
         this.spaceShip.draw(ctx);
         this.motherboard.draw(ctx);
+        if (this.missile) this.missile.draw(ctx);
     }
 
     update(deltaTime) {
         this.spaceShip.update(deltaTime);
-        this.motherboard.update();
+        this.motherboard.update(deltaTime);
+        if (this.missile) {
+            this.missile.update(deltaTime);
+            if (this.missile.position.y < 0) this.missile = null;
+        }
     }
 
     clear(ctx) {
