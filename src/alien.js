@@ -24,7 +24,7 @@ export default class Alien {
     }
 
     update(deltaTime) {
-        const missile = this.game.missile;
+        const missile = this.game.spaceShipMissile;
         if (missile) {
             const bottomOfMissile = missile.position.y + missile.size;
             const topOfMissile = missile.position.y;
@@ -39,8 +39,9 @@ export default class Alien {
                 missile.position.x + missile.size >= leftSideOfAlien &&
                 missile.position.x <= rightSideOfAlien
             ) {
+                new Audio("/assets/sounds/alien_dead.wav").play();
                 this.markedForRemoval = true;
-                this.game.missile = null;
+                this.game.spaceShipMissile = null;
             }
         }
     }

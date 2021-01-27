@@ -1,8 +1,9 @@
 export default class Missile {
-    constructor(game, position) {
+    constructor(game, position, isAlienMissile = false) {
         this.image = document.querySelector(".missile");
         this.position = position;
-        this.speed = 0.6;
+        this.isAlienMissile = isAlienMissile;
+        this.speed = isAlienMissile ? 0.3 : -0.6;
         this.size = 10;
     }
 
@@ -17,6 +18,6 @@ export default class Missile {
     }
 
     update(deltaTime) {
-        this.position.y -= (this.speed * deltaTime);
+        this.position.y += (this.speed * deltaTime);
     }
 }
