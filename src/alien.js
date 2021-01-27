@@ -43,7 +43,6 @@ export default class Alien {
                 this.game.missile = null;
             }
         }
-        // console.log("Update alien");
     }
 
     move() {

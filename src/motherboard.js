@@ -5,12 +5,13 @@ export default class Motherboard {
     constructor(game, aliens) {
         this.game = game;
         this.aliens = aliens;
+        this.timeToMove = 1000;
         this.moveAliens = true;
-        this.setAliensMove();
+        this.moveInterval = this.setMoveInterval();
     }
 
-    setAliensMove() {
-        setInterval(() => this.moveAliens = true, 1000);
+    setMoveInterval() {
+        return setInterval(() => this.moveAliens = true, this.timeToMove);
     }
 
     draw(ctx) {
@@ -21,15 +22,31 @@ export default class Motherboard {
         this.aliens.forEach(alien => alien.update(deltaTime));
         this.aliens = this.aliens.filter(alien => !alien.markedForRemoval);
         if (this.moveAliens) {
-            const isAlienOnEdge = this.aliens.some(alien => {
-                return alien.position.x <= 0 ||
-                    alien.position.x >= (this.game.gameWidth - alien.size);
-            });
+            this.restartInterval();
+            const isAnyAlienOnEdge = this.isAnyAlienOnEdge();
             this.aliens.forEach(alien => {
-                if (isAlienOnEdge) alien.changeDirection();
+                if (isAnyAlienOnEdge) alien.changeDirection();
                 alien.move();
             });
             this.moveAliens = !this.moveAliens;
         }
+    }
+
+    restartInterval() {
+        this.timeToMove = this.calcIntervalTime(); 
+        clearInterval(this.moveInterval);
+        this.moveInterval = this.setMoveInterval();
+    }
+
+    calcIntervalTime() {
+        const calculatedTime = Math.floor(this.aliens.length / 10) * 200;
+        return calculatedTime === 0 ? 100 : calculatedTime; 
+    }
+
+    isAnyAlienOnEdge() {
+        return this.aliens.some(alien => {
+            return alien.position.x <= 0 ||
+                alien.position.x >= (this.game.gameWidth - alien.size);
+        });
     }
 }
