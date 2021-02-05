@@ -1,4 +1,5 @@
 import Game from "/src/game.js";
+import collisionDetection from "/src/collisionDetection.js";
 
 export default class Alien {
     constructor(game, type, position) {
@@ -8,7 +9,8 @@ export default class Alien {
         this.images = [document.querySelector(`.alien-${this.type}-0`),
         document.querySelector(`.alien-${this.type}-1`)]
         this.imageState = 0
-        this.size = 22;
+        this.width = 22;
+        this.height = 22;
         this.speed = 10;
         this.markedForRemoval = false;
     }
@@ -18,31 +20,17 @@ export default class Alien {
             this.images[this.imageState],
             this.position.x,
             this.position.y,
-            this.size,
-            this.size,
+            this.width,
+            this.height,
         );
     }
 
     update(deltaTime) {
         const missile = this.game.spaceShipMissile;
-        if (missile) {
-            const bottomOfMissile = missile.position.y + missile.size;
-            const topOfMissile = missile.position.y;
-
-            const topOfAlien = this.position.y;
-            const leftSideOfAlien = this.position.x;
-            const rightSideOfAlien = this.position.x + this.size;
-            const bottomOfAlien = this.position.y + this.size;
-            if (
-                bottomOfMissile >= topOfAlien &&
-                topOfMissile <= bottomOfAlien && 
-                missile.position.x + missile.size >= leftSideOfAlien &&
-                missile.position.x <= rightSideOfAlien
-            ) {
-                new Audio("/assets/sounds/alien_dead.wav").play();
-                this.markedForRemoval = true;
-                this.game.spaceShipMissile = null;
-            }
+        if (missile && collisionDetection(this, missile)) {
+            new Audio("/assets/sounds/alien_dead.wav").play();
+            this.markedForRemoval = true;
+            this.game.spaceShipMissile = null;
         }
     }
 
@@ -53,6 +41,6 @@ export default class Alien {
 
     changeDirection() {
         this.speed = -this.speed;
-        this.position.y = this.position.y + this.size;
+        this.position.y = this.position.y + this.height;
     }
 }

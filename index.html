@@ -2,18 +2,26 @@
 <html lang="eng">
 
 <head>
+    <link rel="icon" 
+      type="image/png" 
+      href="/assets/images/space-ship.png">
     <title>Space Invaders</title>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <style>
+        @font-face {
+            font-family: 'PressStart2P';
+            src: url("assets/fonts/PressStart2P-Regular.ttf");
+        }
+
         body {
-            display: flex;
+            font-family: 'PressStart2P';
+            color: #fff;
             justify-content: center;
             background: url('/assets/images/background2.jpg') no-repeat;
             background-size: cover;
         }
 
         canvas {
-            margin-top: 20px;
             background: #000;
         }
 
@@ -21,6 +29,19 @@
             display: none;
         }
 
+        .main-container {
+            width: 592px;
+            display: flex;
+            margin: 21px auto 0 auto;
+        }
+
+        .labels {
+            white-space: nowrap;
+        }
+
+        .labels p {
+            margin: 0 0 18px 10px;
+        }
     </style>
 </head>
 
@@ -37,6 +58,10 @@
         <canvas width="592" height="550">
 
         </canvas>
+        <div class="labels">
+            <p>Lives:<span class="lives-qty">3</span></p>
+            <p>Score:<span class="score-qty">100</span></p>
+        </div>
     </div>
 
     <script type="module" src="src/index.js"></script>

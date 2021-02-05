@@ -46,7 +46,7 @@ export default class Motherboard {
     isAnyAlienOnEdge() {
         return this.aliens.some(alien => {
             return alien.position.x <= 0 ||
-                alien.position.x >= (this.game.gameWidth - alien.size);
+                alien.position.x >= (this.game.gameWidth - alien.width);
         });
     }
 }

@@ -4,7 +4,9 @@ export default class Missile {
         this.position = position;
         this.isAlienMissile = isAlienMissile;
         this.speed = isAlienMissile ? 0.3 : -0.6;
-        this.size = 10;
+        this.width = 10;
+        this.height = 10;
+        this.markedForRemoval = false;
     }
 
     draw(ctx) {
@@ -12,8 +14,8 @@ export default class Missile {
             this.image,
             this.position.x,
             this.position.y,
-            this.size,
-            this.size,
+            this.width,
+            this.height,
         );
     }
 

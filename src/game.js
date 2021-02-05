@@ -70,7 +70,9 @@ export default class Game {
             this.spaceShipMissile.update(deltaTime);
             if (this.spaceShipMissile.position.y < 0) this.spaceShipMissile = null;
         }
+
         this.alienMissiles.forEach(missile => missile.update(deltaTime));
+        this.alienMissiles = this.alienMissiles.filter(missile => missile.position.y < 550);
     }
 
     clear(ctx) {
