@@ -10,7 +10,6 @@ export default class SpaceShip {
         this.speed = 0;
         this.width = 30;
         this.height = 40;
-        this.lives = 3;
     }
 
     draw(ctx) {
@@ -29,15 +28,13 @@ export default class SpaceShip {
             this.position.x = this.speed < 0 ? 5 : this.game.gameWidth - this.width - 5;
         }
         this.position.x += (this.speed * deltaTime);
-        const collisionWithMissile = this.game.alienMissiles.some(missile => {
-            missile.markedForRemoval = true;
-            return collisionDetection(this, missile)
+        this.game.missiles.forEach(missile => {
+            if (!missile.isSpaceShipMissile && collisionDetection(this, missile)) {
+                missile.markedForRemoval = true;
+                this.game.onSpaceShipCollision();  
+            }
         });
-        
-        if (collisionWithMissile) {
-            console.log("this.lives: " + this.lives);
-            this.lives--;
-        }
+    
     }
 
     moveLeft() {

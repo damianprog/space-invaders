@@ -7,8 +7,8 @@ export default class Alien {
         this.type = type;
         this.position = position;
         this.images = [document.querySelector(`.alien-${this.type}-0`),
-        document.querySelector(`.alien-${this.type}-1`)]
-        this.imageState = 0
+        document.querySelector(`.alien-${this.type}-1`)];
+        this.imageState = 0;
         this.width = 22;
         this.height = 22;
         this.speed = 10;
@@ -26,11 +26,12 @@ export default class Alien {
     }
 
     update(deltaTime) {
-        const missile = this.game.spaceShipMissile;
+        const missile = this.game.getSpaceShipMissile();
         if (missile && collisionDetection(this, missile)) {
             new Audio("/assets/sounds/alien_dead.wav").play();
             this.markedForRemoval = true;
-            this.game.spaceShipMissile = null;
+            missile.markedForRemoval = true;
+            this.game.onAlienCollision();
         }
     }
 

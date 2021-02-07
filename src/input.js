@@ -17,6 +17,12 @@ export default class Input {
 
                 case "c":
                     this.game.createMissile();
+                    break;
+                
+                case " ": 
+                    this.game.start();
+                    break;
+
             }
         });  
         
