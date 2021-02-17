@@ -28,7 +28,6 @@ export default class Alien {
     update(deltaTime) {
         const missile = this.game.getSpaceShipMissile();
         if (missile && collisionDetection(this, missile)) {
-            new Audio("/assets/sounds/alien_dead.wav").play();
             this.markedForRemoval = true;
             missile.markedForRemoval = true;
             this.game.onAlienCollision();

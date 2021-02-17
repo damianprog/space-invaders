@@ -10,7 +10,7 @@ export default class Game {
     constructor(gameWidth, gameHeight) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
-        this.gameState = GAME_STATE.RUNNING;
+        this.gameState = GAME_STATE.WELCOME_MENU;
         this.initializeQuantities();
         this.initializeDefaults();
         this.setAlienMissilesInterval();
@@ -45,6 +45,12 @@ export default class Game {
                 }
             }
         }, 1000);
+    }
+
+    pause() {
+        if (this.gameState !== GAME_STATE.GAMEOVER && this.gameState !== GAME_STATE.WELCOME_MENU) {
+            this.gameState = this.gameState === GAME_STATE.RUNNING ? GAME_STATE.PAUSED : GAME_STATE.RUNNING;
+        } 
     }
 
     getAliensPositions() {
@@ -86,26 +92,43 @@ export default class Game {
     }
 
     onSpaceShipCollision() {
-        this.livesQty.innerHTML = parseInt(this.livesQty.innerHTML) - 1;
+        const currentLivesQty = parseInt(this.livesQty.innerHTML) - 1;
+        this.livesQty.innerHTML = currentLivesQty < 0 ? 0 : currentLivesQty;
         const currentScore = parseInt(this.scoreQty.innerHTML);
         this.scoreQty.innerHTML = currentScore >= 300 ? currentScore - 300 : 0;
+        new Audio("/assets/sounds/space_ship_damage.wav").play();
     }
 
     onAlienCollision() {
+        new Audio("/assets/sounds/alien_dead.wav").play();
         this.scoreQty.innerHTML = parseInt(this.scoreQty.innerHTML) + 100;
     }
 
     draw(ctx) {
-        this.spaceShip.draw(ctx);
-        this.motherboard.draw(ctx);
-        this.missiles.forEach(missile => missile.draw(ctx));
-    
+        if (this.gameState !== GAME_STATE.WELCOME_MENU) {
+            this.spaceShip.draw(ctx);
+            this.motherboard.draw(ctx);
+            this.missiles.forEach(missile => missile.draw(ctx));
+        }
+        if (this.gameState === GAME_STATE.WELCOME_MENU) {
+            this.darkenBackground(ctx);
+            this.setFontStyle(ctx);
+            ctx.fillText("Space Invaders", this.gameWidth / 2, (this.gameHeight / 2) - 50);
+            ctx.fillText("Press SPACEBAR to START", this.gameWidth / 2, this.gameHeight / 2);
+        }
+
         if (this.gameState === GAME_STATE.GAMEOVER) {
             this.darkenBackground(ctx);
             this.setFontStyle(ctx);
             ctx.fillText("Game Over!", this.gameWidth / 2, (this.gameHeight / 2) - 150);
             ctx.fillText("Your Score: " + this.scoreQty.innerHTML, this.gameWidth / 2, (this.gameHeight / 2) - 50 );
             ctx.fillText("Press SPACEBAR to restart", this.gameWidth / 2, (this.gameHeight / 2));
+        }
+
+        if (this.gameState === GAME_STATE.PAUSED) {
+            this.darkenBackground(ctx);
+            this.setFontStyle(ctx);
+            ctx.fillText("Paused", this.gameWidth / 2, this.gameHeight / 2);
         }
     }
 
@@ -122,7 +145,7 @@ export default class Game {
     }
 
     update(deltaTime) {
-        if (this.gameState === GAME_STATE.GAMEOVER) return;
+        if (this.gameState === GAME_STATE.GAMEOVER || this.gameState === GAME_STATE.PAUSED) return;
         this.spaceShip.update(deltaTime);
         this.motherboard.update(deltaTime);
         this.missiles.forEach(missile => missile.update(deltaTime));

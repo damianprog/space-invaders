@@ -15,7 +15,7 @@ export default class Input {
                     this.spaceShip.moveRight();
                     break;
 
-                case "c":
+                case "x":
                     this.game.createMissile();
                     break;
                 
@@ -23,6 +23,9 @@ export default class Input {
                     this.game.start();
                     break;
 
+                case "Escape": 
+                    this.game.pause();
+                    break;
             }
         });  
         

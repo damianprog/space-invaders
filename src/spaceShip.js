@@ -34,7 +34,6 @@ export default class SpaceShip {
                 this.game.onSpaceShipCollision();  
             }
         });
-    
     }
 
     moveLeft() {
